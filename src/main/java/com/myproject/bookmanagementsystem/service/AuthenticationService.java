@@ -6,12 +6,14 @@ import com.myproject.bookmanagementsystem.payload.response.AuthenticationRespons
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
+
 public interface AuthenticationService {
 
     AuthenticationResponse register(RegisterRequest request);
 
     AuthenticationResponse login(LoginRequest request);
 
-    void refreshToken(HttpServletRequest request, HttpServletResponse response);
+    void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException;
 
 }

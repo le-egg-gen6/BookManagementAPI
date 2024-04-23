@@ -33,6 +33,14 @@ public enum Role {
                     Permission.MANAGER_DELETE,
                     Permission.MANAGER_CREATE
             )
+    ),
+    AUTHOR(
+            Set.of(
+                    Permission.AUTHOR_READ,
+                    Permission.AUTHOR_UPDATE,
+                    Permission.AUTHOR_DELETE,
+                    Permission.AUTHOR_CREATE
+            )
     );
 
     private final Set<Permission> permissions;
