@@ -6,6 +6,8 @@ import com.myproject.bookmanagementsystem.model.User;
 import com.myproject.bookmanagementsystem.payload.request.LoginRequest;
 import com.myproject.bookmanagementsystem.payload.request.RegisterRequest;
 import com.myproject.bookmanagementsystem.payload.response.AuthenticationResponse;
+import com.myproject.bookmanagementsystem.repository.TokenRepository;
+import com.myproject.bookmanagementsystem.repository.UserRepository;
 import com.myproject.bookmanagementsystem.security.service.JwtService;
 import com.myproject.bookmanagementsystem.security.user.CustomUserDetails;
 import com.myproject.bookmanagementsystem.service.AuthenticationService;
@@ -28,6 +30,12 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private JwtService jwtService;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private TokenRepository tokenRepository;
+
+    @Autowired
     private UserService userService;
 
     @Autowired
@@ -48,7 +56,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
                 .build();
-        var savedUser = userService.saveUser(user);
+        var savedUser = userRepository.save(user);
         CustomUserDetails userDetails = CustomUserDetails.builder()
                 .username(savedUser.getUsername())
                 .password(savedUser.getPassword())
@@ -72,7 +80,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                         request.getPassword()
                 )
         );
-        var user = userService.findByUsername(request.getUsername());
+        var user = userRepository.findByUsername(request.getUsername()).orElse(null);
         if (user == null) {
             throw new ResourceNotFoundException("User not found");
         } else {
@@ -100,7 +108,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         refreshToken = jwtService.extractTokenFromRequest(request);
         username = jwtService.extractUsername(refreshToken);
         if (username != null) {
-            var user = userService.findByUsername(username);
+            var user = userRepository.findByUsername(username).orElse(null);
             if (user == null) {
                 throw new ResourceNotFoundException("User not found");
             }
