@@ -17,21 +17,21 @@ public class UserController extends AbstractAdminController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/user/get")
+    @GetMapping("/user")
     public ResponseEntity<List<UserResponse>> getAllUser(
             Pageable pageable
     ) {
         return ResponseEntity.ok(userService.findAll(pageable));
     }
 
-    @GetMapping("/user/get")
+    @GetMapping("/user/property")
     public ResponseEntity<UserResponse> findUserById(
             @RequestParam(name = "id") Integer id
     ) {
         return ResponseEntity.ok(userService.findById(id));
     }
 
-    @GetMapping("/user/get")
+    @GetMapping("/user/property")
     public ResponseEntity<List<UserResponse>> findUserByUsername(
             @RequestParam(name = "username") String username,
             Pageable pageable
@@ -39,7 +39,7 @@ public class UserController extends AbstractAdminController {
         return ResponseEntity.ok(userService.findByUsername(username, pageable));
     }
 
-    @GetMapping("/user/get")
+    @GetMapping("/user/property")
     public ResponseEntity<List<UserResponse>> findUSerByEmail(
             @RequestParam(name = "email") String email,
             Pageable pageable

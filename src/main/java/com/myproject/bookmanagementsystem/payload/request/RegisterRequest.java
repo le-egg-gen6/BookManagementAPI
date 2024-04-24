@@ -19,13 +19,14 @@ public class RegisterRequest {
     @JsonProperty("last_name")
     private String lastname;
 
+    @JsonProperty("username")
+    private String username;
+
     @JsonProperty("email")
     private String email;
 
     @JsonProperty("password")
     private String password;
 
-    @JsonProperty("role")
-    private Role role;
 
 }

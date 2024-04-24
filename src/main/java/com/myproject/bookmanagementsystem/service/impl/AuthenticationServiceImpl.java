@@ -3,6 +3,7 @@ package com.myproject.bookmanagementsystem.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.myproject.bookmanagementsystem.config.exception.ResourceNotFoundException;
 import com.myproject.bookmanagementsystem.model.User;
+import com.myproject.bookmanagementsystem.model.constant.Role;
 import com.myproject.bookmanagementsystem.payload.request.LoginRequest;
 import com.myproject.bookmanagementsystem.payload.request.RegisterRequest;
 import com.myproject.bookmanagementsystem.payload.response.AuthenticationResponse;
@@ -54,7 +55,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 .lastname(request.getLastname())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
+                .role(Role.USER)
                 .build();
         var savedUser = userRepository.save(user);
         CustomUserDetails userDetails = CustomUserDetails.builder()

@@ -17,7 +17,7 @@ public class Author extends BaseModel {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "authors", fetch = FetchType.EAGER)
-    List<Book> books;
+    @OneToOne(fetch = FetchType.LAZY)
+    private User user;
 
 }

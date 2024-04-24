@@ -17,13 +17,20 @@ public class Book extends BaseModel {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "short_description")
+    private String shortDescription;
 
-    @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
-    List<Author> authors;
+    @Column(name = "url")
+    private String url;
 
-    @ManyToMany(mappedBy = "books", fetch = FetchType.LAZY)
+    @Column(name = "book_cover_image_dir")
+    private String bookCoverImageDir;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "author_id")
+    private Author author;
+
+    @ManyToMany(mappedBy = "books", fetch = FetchType.EAGER)
     List<Category> categories;
 
 }
