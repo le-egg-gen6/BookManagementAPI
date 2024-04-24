@@ -48,10 +48,10 @@ public class UserController extends AbstractAdminController {
     }
 
     @PostMapping("/user/modify")
-    public ResponseEntity<UserDetailsResponse> updateUserByAdmin(
+    public ResponseEntity<UserDetailsResponse> updateUserDetailsByAdmin(
             @RequestBody UserDetailsRequest request
     ) {
-        return ResponseEntity.ok(userService.updateUserByAdmin(request));
+        return ResponseEntity.ok(userService.updateUserDetailsByAdmin(request));
     }
 
 }

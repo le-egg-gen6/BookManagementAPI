@@ -8,14 +8,18 @@ import com.myproject.bookmanagementsystem.payload.request.user.UserDetailsReques
 import com.myproject.bookmanagementsystem.payload.response.user.UserDetailsResponse;
 import com.myproject.bookmanagementsystem.payload.response.user.UserResponse;
 import com.myproject.bookmanagementsystem.repository.UserRepository;
+import com.myproject.bookmanagementsystem.service.TokenService;
 import com.myproject.bookmanagementsystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,6 +27,22 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private TokenService tokenService;
+
+    @Override
+    public Integer getauthenticatedUserId() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (Objects.isNull(username)) {
+            throw new AccessDeniedException("Access Denied");
+        }
+        var user = userRepository.findByUsername(username).orElse(null);
+        if (user == null) {
+            throw new ResourceNotFoundException("User not found");
+        }
+        return user.getId();
+    }
 
     @Override
     public UserResponse findById(Integer id) {
@@ -61,7 +81,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetailsResponse updateUserByAdmin(UserDetailsRequest request) {
+    public UserDetailsResponse updateUserDetailsByAdmin(UserDetailsRequest request) {
         var user = userRepository.findById(request.getId()).orElseThrow(
                 () -> new InvalidArgumentException("User not found")
         );
@@ -70,6 +90,7 @@ public class UserServiceImpl implements UserService {
         }
         user.setRole(request.getRole());
         var saved_user = userRepository.save(user);
+        tokenService.revokeAllUserTokens(saved_user);
         return UserDetailsResponse.buildFromUser(saved_user);
     }
 
@@ -83,5 +104,22 @@ public class UserServiceImpl implements UserService {
                 )
         ).getContent();
         return userList.stream().map(UserResponse::buildFromUser).collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDetailsResponse updateUserDetailsByUser(UserDetailsRequest request) {
+        var user = userRepository.findById(getauthenticatedUserId()).orElse(null);
+        if (user == null) {
+            throw new ResourceNotFoundException("User not found!");
+        }
+        if (request.getRole() != user.getRole()) {
+            throw new InvalidArgumentException("You are not allowed to change your rule");
+        }
+        user.setEmail(request.getEmail());
+        user.setFirstname(request.getFirstname());
+        user.setEmail(request.getEmail());
+        user.setAddress(request.getAddress());
+        var saved_user = userRepository.save(user);
+        return UserDetailsResponse.buildFromUser(saved_user);
     }
 }

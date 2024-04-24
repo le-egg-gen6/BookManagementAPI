@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface UserService {
 
+    Integer getauthenticatedUserId();
+
     UserResponse findById(Integer id);
 
     List<UserResponse> findByUsername(String username, Pageable pageable);
@@ -17,6 +19,8 @@ public interface UserService {
 
     List<UserResponse> findAll(Pageable pageable);
 
-    UserDetailsResponse updateUserByAdmin(UserDetailsRequest request);
+    UserDetailsResponse updateUserDetailsByUser(UserDetailsRequest request);
+
+    UserDetailsResponse updateUserDetailsByAdmin(UserDetailsRequest request);
 
 }
