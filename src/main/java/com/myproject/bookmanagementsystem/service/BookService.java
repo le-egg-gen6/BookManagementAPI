@@ -14,6 +14,10 @@ public interface BookService {
 
     List<BookResponse> findByName(String name, Pageable pageable);
 
-    List<BookResponse> findByAuthorName(String name, Pageable pageable);
+    List<BookResponse> findByCategory(String category_code, Pageable pageable);
+
+    List<BookResponse> findByAuthorName(String author_name, Pageable pageable);
+
+    List<BookResponse> findByCategoryAndName(String category_code, String name, Pageable pageable);
 
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,9 +26,9 @@ public class BookController extends AbstractUserController{
         return ResponseEntity.ok(bookService.findAll(pageable));
     }
 
-    @GetMapping("/book")
+    @GetMapping("/book/{id}")
     public ResponseEntity<BookDetailsResponse> getBook(
-            @RequestParam(name = "id") Integer id
+            @PathVariable(name = "id") Integer id
     ) {
         return ResponseEntity.ok(bookService.findById(id));
     }
@@ -48,5 +49,12 @@ public class BookController extends AbstractUserController{
         return ResponseEntity.ok(bookService.findByAuthorName(name, pageable));
     }
 
-
+    @GetMapping("/book/property")
+    public ResponseEntity<List<BookResponse>> findByCategoryAndName(
+            @RequestParam(name = "category") String category,
+            @RequestParam(name = "name") String name,
+            Pageable pageable
+    ) {
+        return ResponseEntity.ok(bookService.findByCategoryAndName(category, name, pageable));
+    }
 }
