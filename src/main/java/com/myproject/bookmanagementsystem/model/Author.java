@@ -20,4 +20,10 @@ public class Author extends BaseModel {
     @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "avatar_dir")
+    private String avatarDir;
+
 }

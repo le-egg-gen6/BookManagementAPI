@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
     private TokenService tokenService;
 
     @Override
-    public Integer getauthenticatedUserId() {
+    public Integer getAuthenticatedUserId() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         if (Objects.isNull(username)) {
             throw new AccessDeniedException("Access Denied");
@@ -108,7 +108,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetailsResponse updateUserDetailsByUser(UserDetailsRequest request) {
-        var user = userRepository.findById(getauthenticatedUserId()).orElse(null);
+        var user = userRepository.findById(getAuthenticatedUserId()).orElse(null);
         if (user == null) {
             throw new ResourceNotFoundException("User not found!");
         }

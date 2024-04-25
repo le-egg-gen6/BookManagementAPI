@@ -15,8 +15,8 @@ public class UserController extends AbstractUserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/user/modify")
-    public ResponseEntity<UserDetailsResponse> updateUserDetailsBy(
+    @PostMapping("/modify")
+    public ResponseEntity<UserDetailsResponse> updateUserDetailsByUser(
             @RequestBody UserDetailsRequest request
     ) {
         return ResponseEntity.ok(userService.updateUserDetailsByUser(request));

@@ -2,7 +2,7 @@ package com.myproject.bookmanagementsystem.payload.response.book;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.myproject.bookmanagementsystem.model.Book;
-import com.myproject.bookmanagementsystem.payload.response.author.AuthorResponse;
+import com.myproject.bookmanagementsystem.payload.response.author.AuthorDetailsResponse;
 import com.myproject.bookmanagementsystem.payload.response.category.CategoryResponse;
 import lombok.Builder;
 import lombok.Data;
@@ -34,7 +34,7 @@ public class BookDetailsResponse {
     private String bookCoverImageDir;
 
     @JsonProperty("author")
-    private AuthorResponse author;
+    private AuthorDetailsResponse author;
 
     @JsonProperty("categories")
     List<CategoryResponse> categories;
@@ -47,7 +47,7 @@ public class BookDetailsResponse {
                 .url(book.getShortDescription())
                 .bookCoverImageDir(book.getBookCoverImageDir())
                 .author(
-                        AuthorResponse.buildFromAuthor(book.getAuthor())
+                        AuthorDetailsResponse.buildFromAuthor(book.getAuthor())
                 )
                 .categories(
                         book.getCategories().stream()

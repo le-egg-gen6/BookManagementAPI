@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Builder
-public class AuthorResponse {
+public class AuthorDetailsResponse {
 
     @JsonProperty("id")
     private Integer id;
@@ -19,10 +19,17 @@ public class AuthorResponse {
     @JsonProperty("name")
     private String name;
 
-    public static AuthorResponse buildFromAuthor(Author author) {
-        return AuthorResponse.builder()
+    @JsonProperty("description")
+    private String description;
+
+    @JsonProperty("avatar_dir")
+    private String avatarDir;
+
+    public static AuthorDetailsResponse buildFromAuthor(Author author) {
+        return AuthorDetailsResponse.builder()
                 .id(author.getId())
                 .name(author.getName())
+                .avatarDir(author.getAvatarDir())
                 .build();
     }
 

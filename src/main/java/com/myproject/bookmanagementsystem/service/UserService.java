@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface UserService {
 
-    Integer getauthenticatedUserId();
+    Integer getAuthenticatedUserId();
 
     UserResponse findById(Integer id);
 
